@@ -1,6 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 Public Class supplyInventory
-    Dim conString As String = "server=localhost; database= vgc; uid=root; password=;"
+    Dim conString As String = "server=localhost; database= vgcInventory; uid=root; password=;"
     Dim conn As New MySqlConnection(conString)
 
     Private Sub clearForm()
@@ -13,15 +13,21 @@ Public Class supplyInventory
         tbxNewPropNum.Clear()
         tbxQtyPhysCount.Clear()
         tbxUnitValue.Clear()
-        tbxLocation.Clear()
-        cbxUM.SelectedIndex = 0
-        cbxCondition.SelectedIndex = 0
+        tbxLocationActual.Clear()
+        tbxLocationReport.Clear()
+        'cbxUM.SelectedIndex = 0
+        'cbxCondition.SelectedIndex = 0
+        tbxUM.Clear()
+        tbxCondition.Clear()
         dtpPurchase.ResetText()
-        tbxRemarks.Clear()
+        tbxResponsibility.Clear()
+        tbxPPE1.Clear()
+        tbxPPE2.Clear()
+        tbxPPE3.Clear()
         'listViewInventory.SelectedItems.Clear()
     End Sub
     Private Sub populateList()
-        Dim query As String = "SELECT id, article, description, um, unitValue, dateOfPurchase, location, cond, remarks FROM inventory"
+        Dim query As String = "SELECT id, article, description, um, unitValue, dateOfPurchase, cond FROM inventory"
         Using connection As New MySqlConnection(conString)
             Using command As New MySqlCommand(query, connection)
                 Try
@@ -35,9 +41,9 @@ Public Class supplyInventory
                             item.SubItems.Add(reader("um").ToString())
                             item.SubItems.Add(reader("unitValue").ToString())
                             item.SubItems.Add(reader("dateOfPurchase").ToString())
-                            item.SubItems.Add(reader("location").ToString())
+                            'item.SubItems.Add(reader("location").ToString())
                             item.SubItems.Add(reader("cond").ToString())
-                            item.SubItems.Add(reader("remarks").ToString())
+                            'item.SubItems.Add(reader("remarks").ToString())
                             listViewInventory.Items.Add(item)
                         End While
                     End Using
@@ -71,9 +77,9 @@ Public Class supplyInventory
                             item.SubItems.Add(reader("um").ToString())
                             item.SubItems.Add(reader("unitValue").ToString())
                             item.SubItems.Add(reader("dateOfPurchase").ToString())
-                            item.SubItems.Add(reader("location").ToString())
+                            'item.SubItems.Add(reader("location").ToString())
                             item.SubItems.Add(reader("cond").ToString())
-                            item.SubItems.Add(reader("remarks").ToString())
+                            'item.SubItems.Add(reader("remarks").ToString())
                             listViewInventory.Items.Add(item)
                         End While
                     End Using
@@ -82,14 +88,14 @@ Public Class supplyInventory
             tbxArticle.Clear()
             tbxDescr.Clear()
             tbxUnitValue.Clear()
-            tbxLocation.Clear()
-            tbxRemarks.Clear()
+            tbxLocationActual.Clear()
+            tbxPPE1.Clear()
             tbxPropNum.Clear()
             tbxNewPropNum.Clear()
             tbxQtyPropCard.Clear()
             tbxQtyPhysCount.Clear()
-            cbxUM.SelectedIndex = 0
-            cbxCondition.SelectedIndex = 0
+            'cbxUM.SelectedIndex = 0
+            'cbxCondition.SelectedIndex = 0
             dtpPurchase.ResetText()
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
@@ -113,16 +119,20 @@ Public Class supplyInventory
                         If reader.Read() Then
                             tbxArticle.Text = reader("article").ToString()
                             tbxDescr.Text = reader("description").ToString()
-                            cbxUM.Text = reader("um").ToString()
+                            tbxUM.Text = reader("um").ToString()
                             tbxUnitValue.Text = reader("unitValue").ToString()
                             dtpPurchase.Value = Convert.ToDateTime(reader("dateOfPurchase"))
-                            tbxLocation.Text = reader("location").ToString()
-                            cbxCondition.Text = reader("cond").ToString()
-                            tbxRemarks.Text = reader("remarks").ToString()
+                            tbxLocationActual.Text = reader("locationActual").ToString()
+                            tbxLocationReport.Text = reader("locationReport").ToString()
+                            tbxCondition.Text = reader("cond").ToString()
                             tbxPropNum.Text = reader("propNum").ToString()
                             tbxNewPropNum.Text = reader("newPropNum").ToString()
                             tbxQtyPropCard.Text = reader("qtyPropCard").ToString()
                             tbxQtyPhysCount.Text = reader("qtyPhysCount").ToString()
+                            tbxResponsibility.Text = reader("responsibility").ToString()
+                            tbxPPE1.Text = reader("PPE1").ToString()
+                            tbxPPE2.Text = reader("PPE2").ToString()
+                            tbxPPE3.Text = reader("PPE3").ToString()
                         End If
                     End Using
                 End Using
@@ -132,43 +142,46 @@ Public Class supplyInventory
         End Try
     End Sub
     Private Sub btnAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAdd.Click
-        If String.IsNullOrWhiteSpace(tbxArticle.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxDescr.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxUnitValue.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxLocation.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxRemarks.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxPropNum.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxNewPropNum.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxQtyPropCard.Text) OrElse
-               String.IsNullOrWhiteSpace(tbxQtyPhysCount.Text) OrElse
-               cbxUM.SelectedIndex = -1 OrElse
-               cbxCondition.SelectedIndex = -1 OrElse
-               cbxUM.SelectedIndex = 0 OrElse
-               cbxCondition.SelectedIndex = 0 OrElse
-               dtpPurchase.Value = DateTime.MinValue Then
-            MessageBox.Show("Fill out all fields to continue")
-            clearForm()
-        Else
-            Dim result As DialogResult = MessageBox.Show("Are you sure you want to add this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        'If String.IsNullOrWhiteSpace(tbxDescr.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxUnitValue.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxLocationActual.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxLocationReport.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxPropNum.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxNewPropNum.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxQtyPropCard.Text) OrElse
+        'String.IsNullOrWhiteSpace(tbxQtyPhysCount.Text) OrElse
+        'dtpPurchase.Value = DateTime.MinValue Then
+        'cbxUM.SelectedIndex = -1 OrElse
+        'cbxCondition.SelectedIndex = -1 OrElse
+        'cbxUM.SelectedIndex = 0 OrElse
+        'cbxCondition.SelectedIndex = 0 OrElse
+        'MessageBox.Show("Fill out all fields to continue")
+        'clearForm()
+        'Else
+        Dim result As DialogResult = MessageBox.Show("Add this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
-                Dim query As String = "INSERT INTO inventory (article, description, um, unitValue, dateOfPurchase, location, cond, remarks, propNum, newPropNum, qtyPropCard, qtyPhysCount) VALUES (@article, @description, @um, @unitValue, @dateOfPurchase, @location, @condit, @remarks, @propNum, @newPropNum, @qtyPropCard, @qtyPhysCount)"
+                Dim query As String = "INSERT INTO inventory (article, description, um, unitValue, dateOfPurchase, cond, propNum, newPropNum, qtyPropCard, qtyPhysCount,locationActual,locationReport,responsibility,PPE1,PPE2,PPE3) VALUES (@article, @description, @um, @unitValue, @dateOfPurchase, @condit, @propNum, @newPropNum, @qtyPropCard, @qtyPhysCount, @locActual, @locReport, @responsib, @ppe1, @ppe2, @ppe3)"
                 Try
-                    Dim description As String = tbxDescr.Text.Replace(vbCrLf, " ").Replace(vbTab, " ") 'para single line lang
+                    Dim description As String = tbxDescr.Text.Replace(vbCrLf, " ").Replace(vbTab, " ").Replace(ControlChars.Lf, "") 'para single line lang
                     Using connection As New MySqlConnection(conString)
                         Using command As New MySqlCommand(query, connection)
                             ' Add parameters
                             command.Parameters.AddWithValue("@article", tbxArticle.Text)
-                            command.Parameters.AddWithValue("@description", tbxDescr.Text)
-                            command.Parameters.AddWithValue("@um", cbxUM.Text)
+                            command.Parameters.AddWithValue("@description", tbxDescr.Text.ToUpper)
+                            command.Parameters.AddWithValue("@um", tbxUM.Text)
                             command.Parameters.AddWithValue("@unitValue", tbxUnitValue.Text)
                             command.Parameters.AddWithValue("@dateOfPurchase", dtpPurchase.Text)
-                            command.Parameters.AddWithValue("@location", tbxLocation.Text)
-                            command.Parameters.AddWithValue("@condit", cbxCondition.Text)
-                            command.Parameters.AddWithValue("@remarks", tbxRemarks.Text)
+                            command.Parameters.AddWithValue("@condit", tbxCondition.Text)
                             command.Parameters.AddWithValue("@propNum", tbxPropNum.Text)
                             command.Parameters.AddWithValue("@newPropNum", tbxNewPropNum.Text)
                             command.Parameters.AddWithValue("@qtyPropCard", tbxQtyPropCard.Text)
                             command.Parameters.AddWithValue("@qtyPhysCount", tbxQtyPhysCount.Text)
+                            command.Parameters.AddWithValue("@locActual", tbxLocationActual.Text)
+                            command.Parameters.AddWithValue("@locReport", tbxLocationReport.Text)
+                            command.Parameters.AddWithValue("@responsib", tbxLocationActual.Text)
+                            command.Parameters.AddWithValue("@ppe1", tbxPPE1.Text)
+                            command.Parameters.AddWithValue("@ppe2", tbxPPE2.Text)
+                            command.Parameters.AddWithValue("@ppe3", tbxPPE3.Text)
                             connection.Open()
                             Dim rowsAffected As Integer = command.ExecuteNonQuery()
                             If rowsAffected > 0 Then
@@ -183,7 +196,7 @@ Public Class supplyInventory
                     MessageBox.Show("Error: " & ex.Message)
                 End Try
             End If
-        End If
+        'End If
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClear.Click
         clearForm()
@@ -192,22 +205,26 @@ Public Class supplyInventory
         If listViewInventory.SelectedItems.Count > 0 Then
             Dim selectedRow As ListViewItem = listViewInventory.SelectedItems(0)
             Dim idValue As String = selectedRow.SubItems(0).Text ' Get the ID of the selected row
-            Dim result As DialogResult = MessageBox.Show("Are you sure you want to update this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Dim result As DialogResult = MessageBox.Show("Update this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
                 ' Get values from textboxes
                 Dim article As String = tbxArticle.Text
-                Dim description As String = tbxDescr.Text
-                Dim um As String = cbxUM.Text
+                Dim description As String = tbxDescr.Text.ToUpper
+                Dim um As String = tbxUM.Text
                 Dim unitValue As String = tbxUnitValue.Text
                 Dim dateOfPurchase As String = dtpPurchase.Text
-                Dim location As String = tbxLocation.Text
-                Dim condit As String = cbxCondition.Text
-                Dim remarks As String = tbxRemarks.Text
+                Dim locActual As String = tbxLocationActual.Text
+                Dim locReport As String = tbxLocationReport.Text
+                Dim condit As String = tbxCondition.Text
+                Dim respo As String = tbxResponsibility.Text
+                Dim ppe1 As String = tbxPPE1.Text
+                Dim ppe2 As String = tbxPPE2.Text
+                Dim ppe3 As String = tbxPPE3.Text
                 Dim prop As String = tbxPropNum.Text
                 Dim newProp As String = tbxNewPropNum.Text
                 Dim propCard As String = tbxQtyPropCard.Text
                 Dim physCount As String = tbxQtyPhysCount.Text
-                Dim query As String = "UPDATE inventory SET article = @article, description = @description, um = @um, unitValue = @unitValue, dateOfPurchase = @dateOfPurchase, location = @location, cond = @condit, remarks = @remarks, propNum=@prop, newPropNum = @newProp, qtyPropCard = @propCard, qtyPhysCount = @physCount WHERE id = @id"
+                Dim query As String = "UPDATE inventory SET article = @article, description = @description, um = @um, unitValue = @unitValue, dateOfPurchase = @dateOfPurchase, locationActual = @locActual, locationReport=@locReport, cond = @condit,responsibility = @respo, propNum=@prop, newPropNum = @newProp, qtyPropCard = @propCard, qtyPhysCount = @physCount, PPE1 = @ppe1, PPE2 = @ppe2, PPE3 = @ppe3 WHERE id = @id"
                 Try
                     Using connection As New MySqlConnection(conString)
                         Using command As New MySqlCommand(query, connection)
@@ -216,13 +233,17 @@ Public Class supplyInventory
                             command.Parameters.AddWithValue("@um", um)
                             command.Parameters.AddWithValue("@unitValue", unitValue)
                             command.Parameters.AddWithValue("@dateOfPurchase", dateOfPurchase)
-                            command.Parameters.AddWithValue("@location", location)
+                            command.Parameters.AddWithValue("@locActual", locActual)
+                            command.Parameters.AddWithValue("@locReport", locReport)
                             command.Parameters.AddWithValue("@condit", condit)
-                            command.Parameters.AddWithValue("@remarks", remarks)
+                            command.Parameters.AddWithValue("@respo", respo)
                             command.Parameters.AddWithValue("@prop", prop)
                             command.Parameters.AddWithValue("@newProp", newProp)
                             command.Parameters.AddWithValue("@propCard", propCard)
                             command.Parameters.AddWithValue("@physCount", physCount)
+                            command.Parameters.AddWithValue("@ppe1", ppe1)
+                            command.Parameters.AddWithValue("@ppe2", ppe2)
+                            command.Parameters.AddWithValue("@ppe3", ppe3)
                             command.Parameters.AddWithValue("@id", idValue) ' Use the ID of the selected row
                             connection.Open()
                             Dim rowsAffected As Integer = command.ExecuteNonQuery()
