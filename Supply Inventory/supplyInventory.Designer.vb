@@ -302,7 +302,7 @@ Partial Class supplyInventory
         Me.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnAdd.Font = New System.Drawing.Font("Trebuchet MS", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAdd.ForeColor = System.Drawing.Color.White
-        Me.btnAdd.Location = New System.Drawing.Point(1111, 376)
+        Me.btnAdd.Location = New System.Drawing.Point(1111, 372)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(144, 72)
         Me.btnAdd.TabIndex = 37
@@ -316,7 +316,7 @@ Partial Class supplyInventory
         Me.btnUpdate.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnUpdate.Font = New System.Drawing.Font("Trebuchet MS", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnUpdate.ForeColor = System.Drawing.Color.White
-        Me.btnUpdate.Location = New System.Drawing.Point(1111, 468)
+        Me.btnUpdate.Location = New System.Drawing.Point(1111, 464)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(144, 72)
         Me.btnUpdate.TabIndex = 38
@@ -330,7 +330,7 @@ Partial Class supplyInventory
         Me.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnDelete.Font = New System.Drawing.Font("Trebuchet MS", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDelete.ForeColor = System.Drawing.Color.White
-        Me.btnDelete.Location = New System.Drawing.Point(1111, 654)
+        Me.btnDelete.Location = New System.Drawing.Point(1111, 650)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(144, 72)
         Me.btnDelete.TabIndex = 40
@@ -477,7 +477,7 @@ Partial Class supplyInventory
         Me.btnClear.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnClear.Font = New System.Drawing.Font("Trebuchet MS", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClear.ForeColor = System.Drawing.Color.White
-        Me.btnClear.Location = New System.Drawing.Point(1111, 563)
+        Me.btnClear.Location = New System.Drawing.Point(1111, 559)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(144, 72)
         Me.btnClear.TabIndex = 39
@@ -610,7 +610,7 @@ Partial Class supplyInventory
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.ClientSize = New System.Drawing.Size(1282, 760)
+        Me.ClientSize = New System.Drawing.Size(1282, 745)
         Me.Controls.Add(Me.tbxPPE3)
         Me.Controls.Add(Me.tbxPPE2)
         Me.Controls.Add(Me.tbxPPE1)

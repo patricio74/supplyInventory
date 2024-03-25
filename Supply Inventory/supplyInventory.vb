@@ -159,43 +159,43 @@ Public Class supplyInventory
         'clearForm()
         'Else
         Dim result As DialogResult = MessageBox.Show("Add this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If result = DialogResult.Yes Then
-                Dim query As String = "INSERT INTO inventory (article, description, um, unitValue, dateOfPurchase, cond, propNum, newPropNum, qtyPropCard, qtyPhysCount,locationActual,locationReport,responsibility,PPE1,PPE2,PPE3) VALUES (@article, @description, @um, @unitValue, @dateOfPurchase, @condit, @propNum, @newPropNum, @qtyPropCard, @qtyPhysCount, @locActual, @locReport, @responsib, @ppe1, @ppe2, @ppe3)"
-                Try
-                    Dim description As String = tbxDescr.Text.Replace(vbCrLf, " ").Replace(vbTab, " ").Replace(ControlChars.Lf, "") 'para single line lang
-                    Using connection As New MySqlConnection(conString)
-                        Using command As New MySqlCommand(query, connection)
-                            ' Add parameters
-                            command.Parameters.AddWithValue("@article", tbxArticle.Text)
-                            command.Parameters.AddWithValue("@description", tbxDescr.Text.ToUpper)
-                            command.Parameters.AddWithValue("@um", tbxUM.Text)
-                            command.Parameters.AddWithValue("@unitValue", tbxUnitValue.Text)
-                            command.Parameters.AddWithValue("@dateOfPurchase", dtpPurchase.Text)
-                            command.Parameters.AddWithValue("@condit", tbxCondition.Text)
-                            command.Parameters.AddWithValue("@propNum", tbxPropNum.Text)
-                            command.Parameters.AddWithValue("@newPropNum", tbxNewPropNum.Text)
-                            command.Parameters.AddWithValue("@qtyPropCard", tbxQtyPropCard.Text)
-                            command.Parameters.AddWithValue("@qtyPhysCount", tbxQtyPhysCount.Text)
-                            command.Parameters.AddWithValue("@locActual", tbxLocationActual.Text)
-                            command.Parameters.AddWithValue("@locReport", tbxLocationReport.Text)
-                            command.Parameters.AddWithValue("@responsib", tbxLocationActual.Text)
-                            command.Parameters.AddWithValue("@ppe1", tbxPPE1.Text)
-                            command.Parameters.AddWithValue("@ppe2", tbxPPE2.Text)
-                            command.Parameters.AddWithValue("@ppe3", tbxPPE3.Text)
-                            connection.Open()
-                            Dim rowsAffected As Integer = command.ExecuteNonQuery()
-                            If rowsAffected > 0 Then
-                                MessageBox.Show("Item added successfully!")
-                                clearForm()
-                            Else
-                                MessageBox.Show("Failed to add item!")
-                            End If
-                        End Using
+        If result = DialogResult.Yes Then
+            Dim query As String = "INSERT INTO inventory (article, description, um, unitValue, dateOfPurchase, cond, propNum, newPropNum, qtyPropCard, qtyPhysCount,locationActual,locationReport,responsibility,PPE1,PPE2,PPE3) VALUES (@article, @description, @um, @unitValue, @dateOfPurchase, @condit, @propNum, @newPropNum, @qtyPropCard, @qtyPhysCount, @locActual, @locReport, @responsib, @ppe1, @ppe2, @ppe3)"
+            Try
+                Dim description As String = tbxDescr.Text.Replace(vbCrLf, " ").Replace(vbTab, " ").Replace(ControlChars.Lf, "") 'para single line lang
+                Using connection As New MySqlConnection(conString)
+                    Using command As New MySqlCommand(query, connection)
+                        ' Add parameters
+                        command.Parameters.AddWithValue("@article", tbxArticle.Text)
+                        command.Parameters.AddWithValue("@description", tbxDescr.Text.ToUpper)
+                        command.Parameters.AddWithValue("@um", tbxUM.Text)
+                        command.Parameters.AddWithValue("@unitValue", tbxUnitValue.Text)
+                        command.Parameters.AddWithValue("@dateOfPurchase", dtpPurchase.Text)
+                        command.Parameters.AddWithValue("@condit", tbxCondition.Text)
+                        command.Parameters.AddWithValue("@propNum", tbxPropNum.Text)
+                        command.Parameters.AddWithValue("@newPropNum", tbxNewPropNum.Text)
+                        command.Parameters.AddWithValue("@qtyPropCard", tbxQtyPropCard.Text)
+                        command.Parameters.AddWithValue("@qtyPhysCount", tbxQtyPhysCount.Text)
+                        command.Parameters.AddWithValue("@locActual", tbxLocationActual.Text)
+                        command.Parameters.AddWithValue("@locReport", tbxResponsibility.Text)
+                        command.Parameters.AddWithValue("@responsib", tbxLocationActual.Text)
+                        command.Parameters.AddWithValue("@ppe1", tbxPPE1.Text)
+                        command.Parameters.AddWithValue("@ppe2", tbxPPE2.Text)
+                        command.Parameters.AddWithValue("@ppe3", tbxPPE3.Text)
+                        connection.Open()
+                        Dim rowsAffected As Integer = command.ExecuteNonQuery()
+                        If rowsAffected > 0 Then
+                            MessageBox.Show("Item added successfully!")
+                            clearForm()
+                        Else
+                            MessageBox.Show("Failed to add item!")
+                        End If
                     End Using
-                Catch ex As Exception
-                    MessageBox.Show("Error: " & ex.Message)
-                End Try
-            End If
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("Error: " & ex.Message)
+            End Try
+        End If
         'End If
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClear.Click
