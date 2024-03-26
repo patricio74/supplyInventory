@@ -468,7 +468,7 @@ Partial Class supplyInventory
         Me.btnClear.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnClear.Font = New System.Drawing.Font("Trebuchet MS", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClear.ForeColor = System.Drawing.Color.White
-        Me.btnClear.Location = New System.Drawing.Point(1067, 311)
+        Me.btnClear.Location = New System.Drawing.Point(1067, 304)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(126, 56)
         Me.btnClear.TabIndex = 39
