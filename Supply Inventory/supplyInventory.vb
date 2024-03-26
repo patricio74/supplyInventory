@@ -2,8 +2,7 @@
 Public Class supplyInventory
     Dim conString As String = "server=localhost; database= vgcInventory; uid=root; password=;"
     Dim conn As New MySqlConnection(conString)
-
-    Private Sub clearForm()
+    Private Sub clearAddTab()
         populateList()
         tbxSearch.Clear()
         tbxArticle.Clear()
@@ -15,8 +14,6 @@ Public Class supplyInventory
         tbxUnitValue.Clear()
         tbxLocationActual.Clear()
         tbxLocationReport.Clear()
-        'cbxUM.SelectedIndex = 0
-        'cbxCondition.SelectedIndex = 0
         tbxUM.Clear()
         tbxCondition.Clear()
         dtpPurchase.ResetText()
@@ -24,8 +21,31 @@ Public Class supplyInventory
         tbxPPE1.Clear()
         tbxPPE2.Clear()
         tbxPPE3.Clear()
-        'listViewInventory.SelectedItems.Clear()
         tbxArticle.Focus()
+    End Sub
+    Private Sub clearUpdTab()
+        populateList()
+        tbxSearch.Clear()
+        updArticle.Clear()
+        updDescription.Clear()
+        updQtyPropCard.Clear()
+        updPropNum.Clear()
+        updNewPropNum.Clear()
+        updQtyPhysCount.Clear()
+        updUnitValue.Clear()
+        updLocActual.Clear()
+        updLocRep.Clear()
+        'cbxUM.SelectedIndex = 0
+        'cbxCondition.SelectedIndex = 0
+        updUM.Clear()
+        updCondition.Clear()
+        dtpPurchase.ResetText()
+        updResponsibility.Clear()
+        updPPE1.Clear()
+        updPPE2.Clear()
+        updPPE3.Clear()
+        'listViewInventory.SelectedItems.Clear()
+        updArticle.Focus()
     End Sub
     Private Sub populateList()
         Dim query As String = "SELECT id, article, description, um, unitValue, dateOfPurchase, cond FROM inventory"
@@ -61,7 +81,6 @@ Public Class supplyInventory
             searchInventory(tbxSearch.Text.Trim())
         End If
     End Sub
-
     Private Sub searchInventory(ByVal searchText As String)
         Dim query As String = "SELECT * FROM inventory WHERE article LIKE @searchText OR description LIKE @searchText OR propNum LIKE @searchText OR newPropNum LIKE @searchText OR locationActual LIKE @searchText OR locationReport LIKE @searchText OR dateOfPurchase LIKE @searchText OR responsibility LIKE @searchText OR cond LIKE @searchText OR PPE1 LIKE @searchText OR PPE2 LIKE @searchText OR PPE3 LIKE @searchText"
         Try
@@ -106,10 +125,10 @@ Public Class supplyInventory
         If listViewInventory.SelectedItems.Count > 0 Then
             Dim selectedRow As ListViewItem = listViewInventory.SelectedItems(0)
             Dim idValue As String = selectedRow.SubItems(0).Text
-            populateTbx(idValue)
+            populateUpdateTab(idValue)
         End If
     End Sub
-    Private Sub populateTbx(ByVal idValue As String)
+    Private Sub populateUpdateTab(ByVal idValue As String)
         Dim query As String = "SELECT * FROM inventory WHERE id = @id"
         Try
             Using connection As New MySqlConnection(conString)
@@ -118,22 +137,23 @@ Public Class supplyInventory
                     connection.Open()
                     Using reader As MySqlDataReader = command.ExecuteReader()
                         If reader.Read() Then
-                            tbxArticle.Text = reader("article").ToString()
-                            tbxDescr.Text = reader("description").ToString()
-                            tbxUM.Text = reader("um").ToString()
-                            tbxUnitValue.Text = reader("unitValue").ToString()
-                            dtpPurchase.Value = Convert.ToDateTime(reader("dateOfPurchase"))
-                            tbxLocationActual.Text = reader("locationActual").ToString()
-                            tbxLocationReport.Text = reader("locationReport").ToString()
-                            tbxCondition.Text = reader("cond").ToString()
-                            tbxPropNum.Text = reader("propNum").ToString()
-                            tbxNewPropNum.Text = reader("newPropNum").ToString()
-                            tbxQtyPropCard.Text = reader("qtyPropCard").ToString()
-                            tbxQtyPhysCount.Text = reader("qtyPhysCount").ToString()
-                            tbxResponsibility.Text = reader("responsibility").ToString()
-                            tbxPPE1.Text = reader("PPE1").ToString()
-                            tbxPPE2.Text = reader("PPE2").ToString()
-                            tbxPPE3.Text = reader("PPE3").ToString()
+                            TabControl1.SelectedIndex = 1
+                            updArticle.Text = reader("article").ToString()
+                            updDescription.Text = reader("description").ToString()
+                            updUM.Text = reader("um").ToString()
+                            updUnitValue.Text = reader("unitValue").ToString()
+                            updDate.Value = Convert.ToDateTime(reader("dateOfPurchase"))
+                            updLocActual.Text = reader("locationActual").ToString()
+                            updLocRep.Text = reader("locationReport").ToString()
+                            updCondition.Text = reader("cond").ToString()
+                            updPropNum.Text = reader("propNum").ToString()
+                            updNewPropNum.Text = reader("newPropNum").ToString()
+                            updQtyPropCard.Text = reader("qtyPropCard").ToString()
+                            updQtyPhysCount.Text = reader("qtyPhysCount").ToString()
+                            updResponsibility.Text = reader("responsibility").ToString()
+                            updPPE1.Text = reader("PPE1").ToString()
+                            updPPE2.Text = reader("PPE2").ToString()
+                            updPPE3.Text = reader("PPE3").ToString()
                         End If
                     End Using
                 End Using
@@ -187,7 +207,7 @@ Public Class supplyInventory
                         Dim rowsAffected As Integer = command.ExecuteNonQuery()
                         If rowsAffected > 0 Then
                             MessageBox.Show("Item added successfully!")
-                            clearForm()
+                            clearAddTab()
                         Else
                             MessageBox.Show("Failed to add item!")
                         End If
@@ -200,31 +220,31 @@ Public Class supplyInventory
         'End If
     End Sub
     Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClear.Click
-        clearForm()
+        clearAddTab()
     End Sub
-    Private Sub btnUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdate.Click
+    Private Sub btnUpdate_Click_1(sender As Object, e As EventArgs) Handles btnUpdate.Click
         If listViewInventory.SelectedItems.Count > 0 Then
             Dim selectedRow As ListViewItem = listViewInventory.SelectedItems(0)
             Dim idValue As String = selectedRow.SubItems(0).Text ' Get the ID of the selected row
             Dim result As DialogResult = MessageBox.Show("Update this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If result = DialogResult.Yes Then
                 ' Get values from textboxes
-                Dim article As String = tbxArticle.Text
-                Dim description As String = tbxDescr.Text.ToUpper
-                Dim um As String = tbxUM.Text
-                Dim unitValue As String = tbxUnitValue.Text
+                Dim article As String = updArticle.Text
+                Dim description As String = updDescription.Text.ToUpper
+                Dim um As String = updUM.Text
+                Dim unitValue As String = updUnitValue.Text
                 Dim dateOfPurchase As String = dtpPurchase.Text
-                Dim locActual As String = tbxLocationActual.Text
-                Dim locReport As String = tbxLocationReport.Text
-                Dim condit As String = tbxCondition.Text
-                Dim respo As String = tbxResponsibility.Text
-                Dim ppe1 As String = tbxPPE1.Text
-                Dim ppe2 As String = tbxPPE2.Text
-                Dim ppe3 As String = tbxPPE3.Text
-                Dim prop As String = tbxPropNum.Text
-                Dim newProp As String = tbxNewPropNum.Text
-                Dim propCard As String = tbxQtyPropCard.Text
-                Dim physCount As String = tbxQtyPhysCount.Text
+                Dim locActual As String = updLocActual.Text
+                Dim locReport As String = updLocRep.Text
+                Dim condit As String = updCondition.Text
+                Dim respo As String = updResponsibility.Text
+                Dim ppe1 As String = updPPE1.Text
+                Dim ppe2 As String = updPPE2.Text
+                Dim ppe3 As String = updPPE3.Text
+                Dim prop As String = updPropNum.Text
+                Dim newProp As String = updNewPropNum.Text
+                Dim propCard As String = updQtyPropCard.Text
+                Dim physCount As String = updQtyPhysCount.Text
                 Dim query As String = "UPDATE inventory SET article = @article, description = @description, um = @um, unitValue = @unitValue, dateOfPurchase = @dateOfPurchase, locationActual = @locActual, locationReport=@locReport, cond = @condit,responsibility = @respo, propNum=@prop, newPropNum = @newProp, qtyPropCard = @propCard, qtyPhysCount = @physCount, PPE1 = @ppe1, PPE2 = @ppe2, PPE3 = @ppe3 WHERE id = @id"
                 Try
                     Using connection As New MySqlConnection(conString)
@@ -250,7 +270,7 @@ Public Class supplyInventory
                             Dim rowsAffected As Integer = command.ExecuteNonQuery()
                             If rowsAffected > 0 Then
                                 MessageBox.Show("Item updated successfully!")
-                                clearForm()
+                                clearUpdTab()
                             Else
                                 MessageBox.Show("Item update failed!.")
                             End If
@@ -260,13 +280,13 @@ Public Class supplyInventory
                     MessageBox.Show("Error: " & ex.Message)
                 End Try
             Else
-                clearForm()
+                clearUpdTab()
             End If
         Else
             MessageBox.Show("Select item to continue")
         End If
     End Sub
-    Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
+    Private Sub btnDelete_Click_1(sender As Object, e As EventArgs) Handles btnDelete.Click
         If listViewInventory.SelectedItems.Count > 0 Then
             Dim selectedRow As ListViewItem = listViewInventory.SelectedItems(0)
             Dim idValue As String = selectedRow.SubItems(0).Text
@@ -281,7 +301,7 @@ Public Class supplyInventory
                             Dim rowsAffected As Integer = command.ExecuteNonQuery()
                             If rowsAffected > 0 Then
                                 MessageBox.Show("Item deleted successfully!")
-                                clearForm()
+                                clearUpdTab()
                             Else
                                 MessageBox.Show("No item deleted.")
                             End If
@@ -291,7 +311,7 @@ Public Class supplyInventory
                     MessageBox.Show("Error: " & ex.Message)
                 End Try
             Else
-                clearForm()
+                clearUpdTab()
             End If
         Else
             MessageBox.Show("No item selected.")
@@ -304,11 +324,18 @@ Public Class supplyInventory
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message)
         End Try
-        clearForm()
+        clearUpdTab()
     End Sub
     Private Sub supplyInventory_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         If conn IsNot Nothing AndAlso conn.State = ConnectionState.Open Then
             conn.Close()
+        End If
+    End Sub
+    Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If TabControl1.SelectedIndex = 0 Then
+            clearUpdTab()
+        ElseIf TabControl1.SelectedIndex = 1 Then
+
         End If
     End Sub
 End Class
