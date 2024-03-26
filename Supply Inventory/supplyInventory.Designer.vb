@@ -135,7 +135,7 @@ Partial Class supplyInventory
         Me.tbxPropNum.BackColor = System.Drawing.Color.White
         Me.tbxPropNum.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.tbxPropNum.Font = New System.Drawing.Font("Verdana", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbxPropNum.Location = New System.Drawing.Point(36, 513)
+        Me.tbxPropNum.Location = New System.Drawing.Point(36, 522)
         Me.tbxPropNum.Name = "tbxPropNum"
         Me.tbxPropNum.Size = New System.Drawing.Size(542, 26)
         Me.tbxPropNum.TabIndex = 8
@@ -144,7 +144,7 @@ Partial Class supplyInventory
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(33, 494)
+        Me.Label6.Location = New System.Drawing.Point(33, 503)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(122, 16)
         Me.Label6.TabIndex = 7
@@ -426,17 +426,17 @@ Partial Class supplyInventory
         'ColumnHeader7
         '
         Me.ColumnHeader7.Text = "Unit Value"
-        Me.ColumnHeader7.Width = 133
+        Me.ColumnHeader7.Width = 124
         '
         'ColumnHeader10
         '
         Me.ColumnHeader10.Text = "Date of Purchase"
-        Me.ColumnHeader10.Width = 157
+        Me.ColumnHeader10.Width = 151
         '
         'ColumnHeader12
         '
         Me.ColumnHeader12.Text = "Condition"
-        Me.ColumnHeader12.Width = 321
+        Me.ColumnHeader12.Width = 313
         '
         'tbxLocationActual
         '

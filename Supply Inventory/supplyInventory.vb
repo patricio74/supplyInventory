@@ -25,6 +25,7 @@ Public Class supplyInventory
         tbxPPE2.Clear()
         tbxPPE3.Clear()
         'listViewInventory.SelectedItems.Clear()
+        tbxArticle.Focus()
     End Sub
     Private Sub populateList()
         Dim query As String = "SELECT id, article, description, um, unitValue, dateOfPurchase, cond FROM inventory"
@@ -62,7 +63,7 @@ Public Class supplyInventory
     End Sub
 
     Private Sub searchInventory(ByVal searchText As String)
-        Dim query As String = "SELECT * FROM inventory WHERE article LIKE @searchText OR description LIKE @searchText"
+        Dim query As String = "SELECT * FROM inventory WHERE article LIKE @searchText OR description LIKE @searchText OR propNum LIKE @searchText OR newPropNum LIKE @searchText OR locationActual LIKE @searchText OR locationReport LIKE @searchText OR dateOfPurchase LIKE @searchText OR responsibility LIKE @searchText OR cond LIKE @searchText OR PPE1 LIKE @searchText OR PPE2 LIKE @searchText OR PPE3 LIKE @searchText"
         Try
             Using connection As New MySqlConnection(conString)
                 Using command As New MySqlCommand(query, connection)
